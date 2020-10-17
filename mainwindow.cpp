@@ -1,24 +1,28 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
+//#include "ui_mainwindow.h"
+
+#include <QHBoxLayout>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QEvent>
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    QWidget(parent)
 {
-    ui->setupUi(this);
+    QHBoxLayout *lt = new QHBoxLayout;
+    lned = new QLineEdit;
+    lt->addWidget(lned, 7);
+    pbtn = new QPushButton(trUtf8("Конвертировать"));
+    lt->addWidget(pbtn);
+    this->setLayout(lt);
+    this->setMinimumWidth(700);
+    this->setWindowTitle("Swap chars");
 
-    ui->mainToolBar->setShown(false);
-    ui->menuBar->setShown(false);
-    ui->statusBar->setShown(false);
+    connect(pbtn, SIGNAL(clicked()), this, SLOT(clickedPbtn()));
 
     currentLayoutInString = Unknown;
 
     ArrayFill();
-}
-
-MainWindow::~MainWindow()
-{
-    delete ui;
 }
 
 void MainWindow::ArrayFill()
@@ -222,9 +226,9 @@ QString MainWindow::Ru2En(QString str4convert)
     return enStr;
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::clickedPbtn()
 {
-    QString strForCheck = ui->lineEdit->text();
+    QString strForCheck = lned->text();
 
     StringChecking(strForCheck);
 
@@ -243,20 +247,20 @@ void MainWindow::on_pushButton_clicked()
             //En2Ru();
             //this.txt_StringForConversion.Text = StrForCheck;
 
-            ui->lineEdit->setText(En2Ru(strForCheck));
+            lned->setText(En2Ru(strForCheck));
         }
         else if (currentLayoutInString == Russian)
         {
             //Ru2En();
             //this.txt_StringForConversion.Text = StrForCheck;
 
-            ui->lineEdit->setText(Ru2En(strForCheck));
+            lned->setText(Ru2En(strForCheck));
         }
         //this.txt_StringForConversion.Select();
         //this.txt_StringForConversion.Copy();
 
-        ui->lineEdit->selectAll();
-        ui->lineEdit->copy();
+        lned->selectAll();
+        lned->copy();
     }
 }
 
@@ -266,8 +270,8 @@ void MainWindow::changeEvent(QEvent *evt)
     {
         if (this->isEnabled())
         {
-            ui->lineEdit->clear();
-            ui->lineEdit->paste();
+            lned->clear();
+            lned->paste();
         }
     }
 

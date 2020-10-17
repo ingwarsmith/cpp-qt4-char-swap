@@ -1,16 +1,18 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+#include <QWidget>
 #include <QChar>
-//#include <QVector>
 #include <QMessageBox>
 
-namespace Ui {
-class MainWindow;
-}
+//namespace Ui {
+//class MainWindow;
+//}
 
-class MainWindow : public QMainWindow
+class QLineEdit;
+class QPushButton;
+
+class MainWindow : public QWidget
 {
     Q_OBJECT
 
@@ -24,16 +26,17 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
+    void clickedPbtn();
 
 protected:
     virtual void changeEvent(QEvent *evt);
 
 private:
-    Ui::MainWindow *ui;
+    //Ui::MainWindow *ui;
+    QLineEdit *lned;
+    QPushButton *pbtn;
     QChar en2ruConvertArray[69][2];
 
     void ArrayFill();
